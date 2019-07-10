@@ -1,2 +1,0 @@
-sprinkl_async
-tests
