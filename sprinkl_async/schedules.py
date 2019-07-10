@@ -37,7 +37,7 @@ class Schedules:
     def __iter__(self):
         """Iterator."""
         for item in self._schedules:
-            yield item
+            yield self._schedules[item]
 
     def __getitem__(self, key):
         """Get sensor by id."""

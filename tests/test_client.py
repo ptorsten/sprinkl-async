@@ -356,7 +356,6 @@ async def test_get_zones(event_loop, login_fixture):
             zones = await controllers[0].zones()
             assert len(zones) == 1
 
-            assert "z_1" in zones
             assert zones["z_1"].enabled
             assert zones["z_1"].name == "Test Zone"
 

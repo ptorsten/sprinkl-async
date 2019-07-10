@@ -33,7 +33,7 @@ class MoistureSensors:
     def __iter__(self):
         """Iterator."""
         for item in self._sensors:
-            yield item
+            yield self._sensors[item]
 
     def __getitem__(self, key):
         """Get sensor by id."""

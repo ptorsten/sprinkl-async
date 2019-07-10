@@ -50,7 +50,6 @@ async def test_zone_properties(event_loop, login_fixture):
             zones = await controllers[0].zones()
             assert len(zones) == 1
 
-            assert "z_1" in zones
             zone = zones["z_1"]
 
             assert zone.enabled
@@ -82,7 +81,6 @@ async def test_zone_run(event_loop, login_fixture):
             zones = await controllers[0].zones()
             assert len(zones) == 1
 
-            assert "z_1" in zones
             zone = zones["z_1"]
 
             await zone.run(10)
@@ -109,7 +107,6 @@ async def test_zone_run_error(event_loop, login_fixture):
             zones = await controllers[0].zones()
             assert len(zones) == 1
 
-            assert "z_1" in zones
             zone = zones["z_1"]
 
             with pytest.raises(RequestError):
@@ -140,7 +137,6 @@ async def test_zone_run_already_running(event_loop, login_fixture):
             zones = await controllers[0].zones()
             assert len(zones) == 1
 
-            assert "z_1" in zones
             zone = zones["z_1"]
 
             with pytest.raises(ControllerAlreadyRunning):
@@ -168,7 +164,6 @@ async def test_zone_run_invalid_json_error(event_loop, login_fixture):
             zones = await controllers[0].zones()
             assert len(zones) == 1
 
-            assert "z_1" in zones
             zone = zones["z_1"]
 
             with pytest.raises(RequestError):

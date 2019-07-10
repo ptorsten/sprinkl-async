@@ -33,7 +33,7 @@ class Zones:
     def __iter__(self):
         """Iterator."""
         for item in self._zones:
-            yield item
+            yield self._zones[item]
 
     def __getitem__(self, key):
         """Iterator."""

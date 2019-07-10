@@ -54,7 +54,7 @@ async def test_schedules(event_loop, login_fixture):
             assert all_sched[0] == schedules["s_1"]
 
             for schedule in schedules:
-                assert schedule == "s_1"
+                assert schedule == schedules["s_1"]
 
             assert len(schedules) == 1
 

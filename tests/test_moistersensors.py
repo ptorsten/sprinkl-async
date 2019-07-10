@@ -83,4 +83,4 @@ async def test_get_moistersensors(event_loop, login_fixture):
             assert len(sensors.all()) == 1
 
             for iter_sensor in sensors:
-                assert iter_sensor == sensor.id
+                assert iter_sensor == sensor

@@ -46,7 +46,7 @@ async def test_zones_get(event_loop, login_fixture):
             zones = await controllers[0].zones()
             assert len(zones) == 1
 
-            assert "z_1" in zones
+            assert zones["z_1"] in zones
 
             with pytest.raises(KeyError):
                 assert zones["apa"].id == "apa"
@@ -54,7 +54,7 @@ async def test_zones_get(event_loop, login_fixture):
             assert zones.get("z_1") == zones["z_1"]
 
             for zone in zones:
-                assert zone == "z_1"
+                assert zone == zones["z_1"]
 
             assert zones.get_by_number(1) == zones["z_1"]
             with pytest.raises(KeyError):
@@ -83,7 +83,6 @@ async def test_zones_run(event_loop, login_fixture):
             zones = await controllers[0].zones()
             assert len(zones) == 1
 
-            assert "z_1" in zones
             await zones.run([{"z_1": 10}])
 
 
@@ -102,7 +101,6 @@ async def test_zones_run_invalid_list(event_loop, login_fixture):
             zones = await controllers[0].zones()
             assert len(zones) == 1
 
-            assert "z_1" in zones
             with pytest.raises(Exception):
                 await zones.run({"z_1": 10})
 
@@ -131,7 +129,5 @@ async def test_zones_skip(event_loop, login_fixture):
 
             zones = await controllers[0].zones()
             assert len(zones) == 1
-
-            assert "z_1" in zones
 
             await zones.skip()
