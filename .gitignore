@@ -1,0 +1,13 @@
+.coverage
+.mypy_cache
+.tox/
+Pipfile.lock
+coverage.xml
+pyden.egg-info
+tags
+*,cover
+htmlcov/
+.pytest_cache/
+instance/
+.webassets-cache
+pytestdebug.log

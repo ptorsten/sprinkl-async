@@ -1,0 +1,49 @@
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+################################################################################
+---
+sudo: false
+matrix:
+  fast_finish: true
+  include:
+    - python: "3.6"
+      env: TOXENV=cov
+      after_success: codecov
+    - python: "3.6"
+      env: TOXENV=lint
+    - python: "3.6"
+      env: TOXENV=type
+    - python: "3.6"
+      env: TOXENV=py36
+    - python: "3.7"
+      env: TOXENV=py37
+      dist: xenial
+      sudo: true
+    - python: "3.8-dev"
+      env: TOXENV=py38
+      dist: xenial
+      sudo: true
+      if: branch = dev AND type = push
+  allow_failures:
+    - python: "3.8-dev"
+      env: TOXENV=py38
+      dist: xenial
+      sudo: true
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+install: pip install -U codecov tox
+language: python
+script: tox --develop
