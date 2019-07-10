@@ -2,7 +2,7 @@
 .egg
 .mypy_cache
 .tox/
-.code-workspace
+.code-workspace*
 Pipfile.lock
 coverage.xml
 pyden.egg-info
