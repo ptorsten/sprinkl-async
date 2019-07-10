@@ -1,4 +1,5 @@
 .coverage
+.egg
 .mypy_cache
 .tox/
 Pipfile.lock
@@ -11,3 +12,4 @@ htmlcov/
 instance/
 .webassets-cache
 pytestdebug.log
+sprinkl_async.egg-info/
