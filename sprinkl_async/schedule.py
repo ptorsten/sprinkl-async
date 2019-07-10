@@ -34,6 +34,7 @@ class Schedule(DictObject):
         """Return true if sechedule is enabled."""
         return self.get("enabled")
 
-    async def run(self, adjust_to_seasson: bool) -> None:
+    async def run(self, use_sesonal_adjustment: bool = False) -> None:
         """Run a schedule manually with adjustments if needed."""
+
         # TODO

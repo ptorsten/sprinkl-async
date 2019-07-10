@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from typing import Awaitable, Any, Dict, Callable
+from typing import Any, Awaitable, Callable, Dict
 
 from .zone import Zone
 

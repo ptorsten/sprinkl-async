@@ -14,32 +14,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from datetime import datetime
 import asyncio
 import logging
-from typing import Dict, Optional, Any, Union, List
+from datetime import datetime
+from typing import Any, Dict, List, Optional, Union
 
 import async_timeout
-
 from aiohttp import ClientSession
 from aiohttp.client_exceptions import ClientResponseError
 
+from .authtoken import AuthToken
 from .const import (
     DEFAULT_TIMEOUT,
-    USER_AGENT,
-    TOKEN_LIFETIME,
     SPRINKL_AUTH_ENDPOINT,
     SPRINKL_ENDPOINT,
+    TOKEN_LIFETIME,
+    USER_AGENT,
 )
-
-from .authtoken import AuthToken
 from .controller import Controller
 from .errors import (
     AuthenticateError,
-    RequestTimeout,
-    RequestError,
-    TokenExpired,
     ControllerAlreadyRunning,
+    RequestError,
+    RequestTimeout,
+    TokenExpired,
 )
 
 _LOGGER = logging.getLogger(__name__)
