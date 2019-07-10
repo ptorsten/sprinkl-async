@@ -46,6 +46,11 @@ def test_create_lists():
 
     assert len(dl.data) == 1
 
+    json_obj = json.loads(dl.json)
+    assert len(json_obj) == 1
+    for sublist in json_obj:
+        assert len(sublist) == 2
+
 
 def test_create_dict():
     do = DictObject({"item": "subitem1"})
@@ -64,3 +69,8 @@ def test_create_dict():
         item = do["1"]
 
     assert len(do.data) == 1
+
+    json_obj = json.loads(do.json)
+    assert len(json_obj) == 1
+    for item in json_obj:
+        assert item == "item"

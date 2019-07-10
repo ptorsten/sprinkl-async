@@ -16,6 +16,21 @@
 
 from typing import Any, Dict, List
 
+import json
+
+
+def set_default(obj):
+    """Make ListObject/DictObject into list/dict for serialization."""
+    if isinstance(obj, ListObject):
+        # pylint: disable=W0212
+        return obj._data
+
+    if isinstance(obj, DictObject):
+        # pylint: disable=W0212
+        return obj._data
+
+    return obj
+
 
 class ListObject:
     """Represent a list with property access to sub-dict/list objects."""
@@ -56,6 +71,11 @@ class ListObject:
     def data(self):
         """Return data object."""
         return self._data
+
+    @property
+    def json(self) -> str:
+        """Return a well-formated json string."""
+        return json.dumps(self._data, sort_keys=True, indent=4, default=set_default)
 
 
 class DictObject:
@@ -102,3 +122,8 @@ class DictObject:
     def data(self):
         """Return data object."""
         return self._data
+
+    @property
+    def json(self) -> str:
+        """Return a well-formated json string."""
+        return json.dumps(self._data, sort_keys=True, indent=4, default=set_default)
