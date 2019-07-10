@@ -19,6 +19,8 @@ from typing import Any, Dict, List
 import json
 
 
+# pylint: disable=inconsistent-return-statements
+# List/Dict object contians only know types
 def set_default(obj):
     """Make ListObject/DictObject into list/dict for serialization."""
     if isinstance(obj, ListObject):
@@ -28,8 +30,6 @@ def set_default(obj):
     if isinstance(obj, DictObject):
         # pylint: disable=W0212
         return obj._data
-
-    return obj
 
 
 class ListObject:
@@ -66,6 +66,10 @@ class ListObject:
     def get(self, idx):
         """Return item based on index."""
         return self._data[idx]
+
+    def __str__(self):
+        """Return string (json) representing the object."""
+        return self.json
 
     @property
     def data(self):
@@ -117,6 +121,10 @@ class DictObject:
     def get(self, key):
         """Return key."""
         return self._data.get(key)
+
+    def __str__(self):
+        """Return string (json) representing the object."""
+        return self.json
 
     @property
     def data(self):
