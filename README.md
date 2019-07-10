@@ -1,9 +1,9 @@
 # sprinkl-async: A Simple Python Library for Sprinkl™ Controllers
 
 [![Travis CI](https://travis-ci.org/ptorsten/sprinkl-async.svg?branch=master)](https://travis-ci.org/ptorsten/sprinkl-async)
-[![PyPi](https://img.shields.io/pypi/v/sprinkl.svg)](https://pypi.python.org/pypi/sprinkl-async)
-[![Version](https://img.shields.io/pypi/pyversions/sprinkl.svg)](https://pypi.python.org/pypi/sprinkl-async)
-[![License](https://img.shields.io/pypi/l/sprinkl-async.svg)](https://github.com/ptorsten/sprinkl-async/blob/master/LICENSE)
+[![PyPi](https://img.shields.io/pypi/v/sprinkl_async.svg)](https://pypi.python.org/pypi/sprinkl_async)
+[![Version](https://img.shields.io/pypi/pyversions/sprinkl_async.svg)](https://pypi.python.org/pypi/sprinkl_async)
+[![License](https://img.shields.io/pypi/l/sprinkl_async.svg)](https://github.com/ptorsten/sprinkl-async/blob/master/LICENSE)
 [![Code Coverage](https://codecov.io/gh/ptorsten/sprinkl-async/branch/master/graph/badge.svg)](https://codecov.io/gh/ptorsten/sprinkl-async)
 [![Maintainability](https://api.codeclimate.com/v1/badges/29ad8b03a39f66e78833/maintainability)](https://codeclimate.com/github/ptorsten/sprinkl-async/maintainability)
 
