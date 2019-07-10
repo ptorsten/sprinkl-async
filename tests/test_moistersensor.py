@@ -80,8 +80,8 @@ async def test_get_readings(event_loop, moister_sensor_get_day_average):
             sensor = sensors["1"]
 
             readings = await sensor.readings()
-            assert len(readings) == 1
-            assert readings[0]["dummy"] == "no sensor"
+            assert len(readings.data) == 1
+            assert readings.data[0]["dummy"] == "no sensor"
 
 
 @pytest.mark.asyncio
@@ -104,12 +104,12 @@ async def test_get_averages(event_loop, moister_sensor_get_day_average):
             sensor = sensors["1"]
 
             readings = await sensor.averages_day()
-            assert len(readings) == 1
-            assert readings[0]["dummy"] == "no sensor"
+            assert len(readings.data) == 1
+            assert readings.data[0]["dummy"] == "no sensor"
 
             readings = await sensor.averages_hour()
-            assert len(readings) == 1
-            assert readings[0]["dummy"] == "no sensor"
+            assert len(readings.data) == 1
+            assert readings.data[0]["dummy"] == "no sensor"
 
 
 @pytest.mark.asyncio

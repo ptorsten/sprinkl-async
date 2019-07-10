@@ -17,8 +17,9 @@
 import logging
 from typing import Awaitable, Callable
 
-from .dataobject import ListObject, DictObject
+from .dataobject import DictObject
 from .moisturesensors import MoistureSensors
+from .pageobject import PageObject
 from .schedules import Schedules
 from .zones import Zones
 
@@ -109,10 +110,10 @@ class Controller:
         """Return the zones."""
         return self._zones
 
-    async def history(self) -> ListObject:
+    async def history(self) -> PageObject:
         """Return history of events."""
         data = await self._request_controller("get", "history")
-        return ListObject(data["data"])
+        return PageObject(data, self._request, "get", "history")
 
     async def stop(self) -> None:
         """Stop/halt the controller."""

@@ -121,9 +121,9 @@ async def test_controller_history(event_loop, controller_login_fixture):
             controller = controllers[0]
 
             history = await controller.history()
-            assert len(history) == 1
+            assert len(history.data) == 1
 
-            assert history[0]["dummy"] == "history"
+            assert history.data[0]["dummy"] == "history"
 
 
 @pytest.mark.asyncio

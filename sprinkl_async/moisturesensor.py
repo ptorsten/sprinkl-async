@@ -16,7 +16,7 @@
 
 from typing import Any, Awaitable, Callable, List
 
-from .dataobject import ListObject
+from .pageobject import PageObject
 
 
 class MoistureSensor:
@@ -48,30 +48,39 @@ class MoistureSensor:
 
         return object.__getattribute__(self, name)
 
-    async def readings(self) -> ListObject:
+    async def readings(self) -> PageObject:
         """Return sensor readings."""
         data = await self._request("get", "sensors/{0}/readings".format(self.id))
-        # TODO(ptorsten): handle paging
-        return ListObject(data["data"])
 
-    async def averages_day(self) -> ListObject:
+        return PageObject(
+            data, self._request, "get", "sensors/{0}/readings".format(self.id)
+        )
+
+    async def averages_day(self) -> PageObject:
         """Return average of day from sensor readings."""
         data = await self._request(
             "get", "sensors/{0}/readings/averages/day".format(self.id)
         )
-        # TODO(ptorsten): handle paging
-        return ListObject(data["data"])
 
-    async def averages_hour(self) -> ListObject:
+        return PageObject(
+            data,
+            self._request,
+            "get",
+            "sensors/{0}/readings/averages/day".format(self.id),
+        )
+
+    async def averages_hour(self) -> PageObject:
         """Return average of hour from sensor readings."""
         data = await self._request(
             "get", "sensors/{0}/readings/averages/hour".format(self.id)
         )
 
-        averages: List[Any] = data["data"]
-
-        # TODO(ptorsten): handle paging
-        return ListObject(averages)
+        return PageObject(
+            data,
+            self._request,
+            "get",
+            "sensors/{0}/readings/averages/hour".format(self.id),
+        )
 
     async def refresh(self) -> None:
         """Refresh sensor object from Sprinkl controller."""

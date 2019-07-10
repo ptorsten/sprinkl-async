@@ -1,3 +1,4 @@
+"""Global test fixtures"""
 #
 # Copyright 2019 Google LLC
 #
@@ -12,8 +13,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-"""Global test fixtures"""
 import json
 
 import aresponses
@@ -114,7 +113,10 @@ def controller_login_fixture(event_loop, auth_token, controller_json):
         "/v1/controllers/1/history",
         "GET",
         aresponses.Response(
-            status=200, text=json.dumps({"data": [{"dummy": "history"}]})
+            status=200,
+            text=json.dumps(
+                {"data": [{"dummy": "history"}], "meta": {"page": 1, "count": 1}}
+            ),
         ),
     )
     yield client
@@ -303,7 +305,10 @@ def moister_sensor_get_day_average(
         "/v1/controllers/1/sensors/1/readings",
         "GET",
         aresponses.Response(
-            status=200, text=json.dumps({"data": [{"dummy": "no sensor"}]})
+            status=200,
+            text=json.dumps(
+                {"data": [{"dummy": "no sensor"}], "meta": {"page": "1", "count": 1}}
+            ),
         ),
     )
 
@@ -312,7 +317,10 @@ def moister_sensor_get_day_average(
         "/v1/controllers/1/sensors/1/readings/averages/day",
         "GET",
         aresponses.Response(
-            status=200, text=json.dumps({"data": [{"dummy": "no sensor"}]})
+            status=200,
+            text=json.dumps(
+                {"data": [{"dummy": "no sensor"}], "meta": {"page": "1", "count": 1}}
+            ),
         ),
     )
 
@@ -321,7 +329,10 @@ def moister_sensor_get_day_average(
         "/v1/controllers/1/sensors/1/readings/averages/hour",
         "GET",
         aresponses.Response(
-            status=200, text=json.dumps({"data": [{"dummy": "no sensor"}]})
+            status=200,
+            text=json.dumps(
+                {"data": [{"dummy": "no sensor"}], "meta": {"page": "1", "count": 1}}
+            ),
         ),
     )
 
