@@ -47,3 +47,63 @@ async def test_schedule(event_loop, login_fixture):
             schedules = await controller.schedules()
 
             assert schedules.get("s_1").enabled
+
+
+@pytest.mark.asyncio
+async def test_schedule_run(event_loop, login_fixture):
+    async with login_fixture:
+
+        async def handler(request):
+            # Request should contain a body with zone+time
+            assert request.body_exists
+            json = await request.json()
+            assert json[0]["zone"] == 1
+            assert json[0]["time"] == 4
+
+            return aresponses.Response(status=200, text="")
+
+        login_fixture.add(TEST_HOST, "/v1/controllers/1/run", "POST", handler)
+
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            client = Client(websession)
+            result = await client.login(email="test@test.com", password="password")
+
+            assert result.user_id == "login_userid"
+
+            controllers = await client.controllers()
+            assert len(controllers) == 1
+            controller = controllers[0]
+
+            schedules = await controller.schedules()
+
+            assert schedules.get("s_1").enabled
+            await schedules.get("s_1").run()
+
+
+@pytest.mark.asyncio
+async def test_schedule_run_season(event_loop, login_fixture):
+    async with login_fixture:
+
+        async def handler(request):
+            # Request should contain a body with zone+time
+            assert request.body_exists
+            json = await request.json()
+            assert json[0]["zone"] == 1
+            return aresponses.Response(status=200, text="")
+
+        login_fixture.add(TEST_HOST, "/v1/controllers/1/run", "POST", handler)
+
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            client = Client(websession)
+            result = await client.login(email="test@test.com", password="password")
+
+            assert result.user_id == "login_userid"
+
+            controllers = await client.controllers()
+            assert len(controllers) == 1
+            controller = controllers[0]
+
+            schedules = await controller.schedules()
+
+            assert schedules.get("s_1").enabled
+            await schedules.get("s_1").run(True)

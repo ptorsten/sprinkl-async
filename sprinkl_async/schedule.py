@@ -13,6 +13,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+from datetime import date
 from typing import Awaitable, Callable
 
 from .dataobject import DictObject
@@ -34,7 +35,17 @@ class Schedule(DictObject):
         """Return true if sechedule is enabled."""
         return self.get("enabled")
 
-    async def run(self, use_sesonal_adjustment: bool = False) -> None:
+    async def run(self, use_seasonal_adjustment: bool = False) -> None:
         """Run a schedule manually with adjustments if needed."""
+        zones_to_run = []
 
-        # TODO
+        for zone in self.zones:
+            run_time = zone.run_time
+            if use_sesonal_adjustment:
+                run_time = round(
+                    run_time * (self._adjustments[date.today().month - 1] / 100)
+                )
+
+            zones_to_run.append({"zone": zone.number, "time": run_time})
+
+        await self._request("post", "run", json=zones_to_run)
