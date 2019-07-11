@@ -41,7 +41,7 @@ class Schedule(DictObject):
 
         for zone in self.zones:
             run_time = zone.run_time
-            if use_sesonal_adjustment:
+            if use_seasonal_adjustment:
                 run_time = round(
                     run_time * (self._adjustments[date.today().month - 1] / 100)
                 )
