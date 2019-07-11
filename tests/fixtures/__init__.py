@@ -578,6 +578,99 @@ def controller_sensor_json():
 
 
 @pytest.fixture()
+def webhooks_events_json():
+    return {
+        "data": [
+            "OFFLINE",
+            "ONLINE",
+            "ZONE_STARTED",
+            "ZONE_COMPLETED",
+            "ZONE_FAULT",
+            "WATERING_STOP",
+            "SCHEDULE_STARTED",
+            "SCHEDULE_COMPLETED",
+            "SCHEDULE_SKIPPED",
+            "WEATHER_ALERT",
+            "WEATHER_ALERT_REMOVED",
+        ]
+    }
+
+
+@pytest.fixture()
+def webhook_get_id1_json():
+    return {
+        "data": {
+            "created_at": "2019-06-25T19:08:25.880Z",
+            "device_id": "d_1",
+            "events": ["OFFLINE", "ONLINE"],
+            "external_id": "ext_id1",
+            "id": "id_1",
+            "updated_at": "2019-06-25T19:08:25.880Z",
+            "url": "https://webhooks/ext_id1",
+        }
+    }
+
+
+@pytest.fixture()
+def webhook_list_json():
+    return {
+        "data": [
+            {
+                "created_at": "2019-06-25T19:08:25.880Z",
+                "device_id": "d_1",
+                "events": ["OFFLINE", "ONLINE"],
+                "external_id": "ext_id1",
+                "id": "id_1",
+                "updated_at": "2019-06-25T19:08:25.880Z",
+                "url": "https://webhooks/ext_id1",
+            },
+            {
+                "created_at": "2019-06-25T21:57:49.972Z",
+                "device_id": "d_1",
+                "events": [
+                    "OFFLINE",
+                    "ONLINE",
+                    "ZONE_STARTED",
+                    "ZONE_COMPLETED",
+                    "ZONE_FAULT",
+                    "WATERING_STOP",
+                    "SCHEDULE_STARTED",
+                    "SCHEDULE_COMPLETED",
+                    "SCHEDULE_SKIPPED",
+                    "WEATHER_ALERT",
+                    "WEATHER_ALERT_REMOVED",
+                ],
+                "external_id": "ext_id2",
+                "id": "id_2",
+                "updated_at": "2019-06-25T21:57:49.972Z",
+                "url": "https://webhooks/ext_id2",
+            },
+            {
+                "created_at": "2019-06-28T15:02:04.862Z",
+                "device_id": "d_1",
+                "events": [
+                    "OFFLINE",
+                    "ONLINE",
+                    "ZONE_STARTED",
+                    "ZONE_COMPLETED",
+                    "ZONE_FAULT",
+                    "WATERING_STOP",
+                    "SCHEDULE_STARTED",
+                    "SCHEDULE_COMPLETED",
+                    "SCHEDULE_SKIPPED",
+                    "WEATHER_ALERT",
+                    "WEATHER_ALERT_REMOVED",
+                ],
+                "external_id": "ext_id3",
+                "id": "id_3",
+                "updated_at": "2019-06-28T15:02:04.862Z",
+                "url": "https://webhooks/ext_id3",
+            },
+        ]
+    }
+
+
+@pytest.fixture()
 def controller_json():
     return {
         "data": [

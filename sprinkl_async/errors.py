@@ -21,6 +21,12 @@ class SprinklError(Exception):
     pass
 
 
+class InvalidWebhookEvent(Exception):
+    """Invalid webhook event."""
+
+    pass
+
+
 class AuthenticateError(SprinklError):
     """Authentication error."""
 

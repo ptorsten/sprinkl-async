@@ -22,6 +22,7 @@ from .moisturesensors import MoistureSensors
 from .pageobject import PageObject
 from .schedules import Schedules
 from .zones import Zones
+from .webhooks import Webhooks
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -49,8 +50,8 @@ class Controller:
         self._location = DictObject(controller_data["location"])
         self._conservation = DictObject(controller_data["conservation"])
         self._zones = Zones(self._request_controller, controller_data["zones"])
-
         self._controller = controller_data
+        self._webhooks = None
 
     def __getattr__(self, name):
         """Allow property access to data object."""
@@ -85,6 +86,13 @@ class Controller:
     def connected(self) -> bool:
         """Return if the controller is connected."""
         return self._controller["connected"]
+
+    @property
+    def webhooks(self):
+        """Return helper to handle webhooks."""
+        if not self._webhooks:
+            self._webhooks = Webhooks(self._request_controller)
+        return self._webhooks
 
     async def moisture_sensors(self) -> MoistureSensors:
         """Return the moister sensors."""
