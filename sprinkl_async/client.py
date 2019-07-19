@@ -69,6 +69,7 @@ class Client:
         headers: Optional[dict] = None,
         params: Optional[dict] = None,
         json: Optional[dict] = None,
+        reauth_token: Optional[bool] = False
     ) -> Dict[Any, Any]:
         if not headers:
             headers = {}
@@ -84,22 +85,30 @@ class Client:
             headers.update({"Authorization": self._auth.token})
 
         try:
-            async with async_timeout.timeout(self._timeout):
-                async with self._websession.request(
-                    method,
-                    url,
-                    headers=headers,
-                    params=params,
-                    json=json,
-                    ssl=self._ssl,
-                    proxy=self._proxy,
-                ) as response:
-                    await _throw_api_exception(response)
-                    response.raise_for_status()
-                    return await response.json(content_type=None)
-        except ClientResponseError as err:
-            _LOGGER.info("Request error: %s (%s)", err, type(err))
-            raise RequestError(err)
+            while True:
+                try:
+                    async with async_timeout.timeout(self._timeout):
+                        async with self._websession.request(
+                            method,
+                            url,
+                            headers=headers,
+                            params=params,
+                            json=json,
+                            ssl=self._ssl,
+                            proxy=self._proxy,
+                        ) as response:
+                            await _throw_api_exception(response)
+                            response.raise_for_status()
+                            return await response.json(content_type=None)
+                except TokenExpired as err:
+                    if not self._auth or not reauth_token:
+                        raise err
+                    # Try re-auth only once
+                    reauth_token = False
+                    self._auth = await self._try_refresh_token_auth(self._auth)
+                except ClientResponseError as err:
+                    _LOGGER.info("Request error: %s (%s)", err, type(err))
+                    raise RequestError(err)
         except asyncio.TimeoutError as err:
             raise RequestTimeout(err)
 

@@ -75,6 +75,7 @@ class Controller:
             headers=headers,
             params=params,
             json=json,
+            reauth_token=True,
         )
 
     @property
