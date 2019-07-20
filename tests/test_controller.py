@@ -207,3 +207,50 @@ async def test_controller_reauth(
             await controller.stop()
 
             assert client.auth_info.token == "refreshed_token"
+
+
+@pytest.mark.asyncio
+async def test_controller_failed_reauth(
+    event_loop, controller_login_fixture, authenticate_token_expired_json
+):
+    def login_handler(request):
+        # token refresh
+        if "refresh_token" in request.query:
+            return aresponses.Response(status=401, text="")
+
+    # Should be called after invalid token from stop
+    controller_login_fixture.add(TEST_HOST, "/v1/authenticate", "post", login_handler)
+
+    # Fail first call to stop with invalid token
+    controller_login_fixture.add(
+        TEST_HOST,
+        "/v1/controllers/1/stop",
+        "POST",
+        aresponses.Response(
+            status=401, text=json.dumps(authenticate_token_expired_json)
+        ),
+    )
+
+    # Retry call with call stop agian (with success)
+    controller_login_fixture.add(
+        TEST_HOST,
+        "/v1/controllers/1/stop",
+        "POST",
+        aresponses.Response(status=200, text=""),
+    )
+
+    async with controller_login_fixture:
+        async with aiohttp.ClientSession(loop=event_loop) as websession:
+            client = Client(websession)
+            result = await client.login(email="test@test.com", password="password")
+
+            assert result.user_id == "login_userid"
+
+            controllers = await client.controllers()
+            assert len(controllers) == 1
+            controller = controllers[0]
+            assert controller.id == "1"
+
+            await controller.stop()
+
+            assert client.auth_info == None

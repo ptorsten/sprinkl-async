@@ -102,12 +102,16 @@ class Client:
                             return await response.json(content_type=None)
                 except TokenExpired as err:
                     if not self._auth or not reauth_token:
+                        if self._auth is None:
+                            _LOGGER.error("Reqest to re-auth but no auth token.")
                         raise err
                     # Try re-auth only once
                     reauth_token = False
                     self._auth = await self._try_refresh_token_auth(self._auth)
+                    if self._auth is None:
+                        _LOGGER.error("Failed to refresh token while doing re-auth.")
                 except ClientResponseError as err:
-                    _LOGGER.info("Request error: %s (%s)", err, type(err))
+                    _LOGGER.error("Request error: %s (%s)", err, type(err))
                     raise RequestError(err)
         except asyncio.TimeoutError as err:
             raise RequestTimeout(err)
@@ -122,7 +126,10 @@ class Client:
                 params={"refresh_token": auth_info.refresh_token},
             )
             return _create_auth_info(auth)
-        except AuthenticateError:
+        except AuthenticateError as err:
+            _LOGGER.error(
+                "Failed to authenticate while getting refresh token. (%s)", str(err)
+            )
             return None
 
     async def _try_login(
